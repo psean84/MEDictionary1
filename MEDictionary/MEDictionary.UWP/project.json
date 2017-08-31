@@ -1,7 +1,9 @@
 ﻿{
   "dependencies": {
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
-    "Xamarin.Forms": "2.3.4.224"
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.4.0",
+    "Newtonsoft.Json": "10.0.3",
+    "Xamarin.Forms": "2.4.0.269-pre2",
+    "Xamarin.Forms.CarouselView": "2.3.0-pre2"
   },
   "frameworks": {
     "uap10.0": {}

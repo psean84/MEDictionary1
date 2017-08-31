@@ -2,10 +2,98 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MEDictionary"
-             x:Class="MEDictionary.MainPage">
+             xmlns:CV="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView"
+             x:Class="MEDictionary.MainPage"
+             Title="Marathi-English Dictionary">
 
-	<Label Text="Welcome to Xamarin Forms!" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
 
+        <SearchBar x:Name="sbSearch" VerticalOptions="Start" Margin="5" Grid.Row="0" Placeholder="Search..." SearchButtonPressed="sbSearch_SearchButtonPressed" />
+        
+        <!--View for successfull result-->
+        <AbsoluteLayout x:Name="stResult" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0" />
+                    <RowDefinition Height="2*"  />
+                    <RowDefinition Height="11*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0" />
+                    <ColumnDefinition Width="11*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Row="1" Margin="5" Grid.Column="1" x:Name="stWordPronunciation" >
+                    <Label VerticalOptions="Start" HorizontalOptions="Start" FontSize="Large" Margin="2" x:Name="lblWord" />
+                    <Label VerticalOptions="Start" HorizontalOptions="Start" FontSize="Small" Margin="10, 0, 0, 0" x:Name="lblPronunciation" />
+                </StackLayout>
+                <Frame HasShadow="False" OutlineColor="Transparent" BackgroundColor="Transparent" Grid.Row="1" Grid.Column="2" Margin="0" Padding="0,0,0,20" VerticalOptions="FillAndExpand" x:Name="abBookmark">
+                    <Image x:Name="imgBookmark" TranslationY="-40" Margin="0" />
+                </Frame>
+                <StackLayout x:Name="stDictionaries" Margin="5" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="2"  >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"  />
+                            <RowDefinition Height="7*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Frame  Grid.Column="0" HasShadow="False" BackgroundColor="Transparent" x:Name="frEnglish" Margin="5" Padding="0">
+                                <StackLayout>
+                                    <Label Text="English(इंग्रजी)" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" BackgroundColor="Transparent"  />
+                                    <Image x:Name="imgEnglish" Aspect="AspectFit"  />
+                                </StackLayout>
+                            </Frame>
+                            <Frame Grid.Column="1" HasShadow="False" BackgroundColor="Transparent" x:Name="frMarathi" Margin="5" Padding="0">
+                                <StackLayout>
+                                    <Label Text="मराठी(Marathi)" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="Transparent"/>
+                                    <Image x:Name="imgMarathi" Aspect="AspectFit" IsVisible="False"/>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                        <CV:CarouselView x:Name="cvResults" Grid.Row="1" VerticalOptions="FillAndExpand" ItemSelected="cvResults_ItemSelected">
+                            <CV:CarouselView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout VerticalOptions="FillAndExpand" Margin="10">
+                                        <ListView ItemsSource="{Binding Descriptions}" x:Name="lvDescriptions" ItemSelected="lvDescriptions_ItemSelected">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate >
+                                                    <TextCell Text="{Binding Defination}" Detail="{Binding Sentence}" />
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                            <ListView.Footer>
+                                                <StackLayout HorizontalOptions="Center">
+                                                    <Frame HasShadow="True" Padding="0" Margin="2" HorizontalOptions="Center" SizeChanged="Frame_SizeChanged">
+                                                        <Image Source="{Binding ExampleImageURL}" HorizontalOptions="Center"/>
+                                                    </Frame>
+                                                </StackLayout>
+                                            </ListView.Footer>
+                                        </ListView>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CV:CarouselView.ItemTemplate>
+                        </CV:CarouselView>
+                    </Grid>
+                </StackLayout>               
+            </Grid>
+
+            <Frame Margin="10" x:Name="frSelectedWordsList" IsVisible="False" HorizontalOptions="Center" IsClippedToBounds="True" VerticalOptions="Center"  MinimumHeightRequest="0">
+                <ListView x:Name="lstSelectedWords" ItemSelected="lstSelectedWords_ItemSelected">
+
+                </ListView>
+            </Frame>
+        </AbsoluteLayout>
+        <!--End for sucessfull result-->
+        
+        <!--View for Unsuccessful or Multiple result-->
+        
+        <!--End of Unsuccessful or Multiple result-->
+    </Grid>
 </ContentPage>
